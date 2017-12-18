@@ -1,17 +1,20 @@
 package servlets;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
+import model.Order;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 @WebServlet("/ShowOrdersServlet")
@@ -85,6 +88,8 @@ public class ShowOrdersServlet extends HttpServlet{
                     session.setAttribute("login", loginValue);
                 }
                 req.setAttribute("login", loginValue);
+                getOrdersList(req, resp);
+                displayOrdersTable(req, resp);
                 displayLogoutPage(req, resp);
             }else{
                 resp.sendRedirect(req.getContextPath() + "/ShowErrorServlet");
@@ -126,9 +131,93 @@ public class ShowOrdersServlet extends HttpServlet{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            closeSource(result, stmt, connection);
         }
 
         return isUser;
+    }
+
+    public void getOrdersList(HttpServletRequest req, HttpServletResponse res){
+        int userid = Integer.parseInt(req.getParameter("login"));
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet result = null;
+        ArrayList list = new ArrayList();
+
+        try {
+            connection = datasource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            stmt = connection.prepareStatement("SELECT * from orders WHERE userid = ?");
+            stmt.setInt(1, userid);
+            result = stmt.executeQuery();
+            while (result.next()){
+                Order order = new Order();
+                order.setOrderid(result.getInt(1));
+                order.setUserid(result.getInt(2));
+                order.setOrdername(result.getString(3));
+                order.setAmount(result.getInt(4));
+                order.setPrice(result.getDouble(5));
+                order.setDate(result.getDate(6));
+                order.setOos(result.getString(7).charAt(0));
+                list.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            closeSource(result, stmt, connection);
+
+        }
+        req.setAttribute("list", list);
+    }
+
+    private void closeSource(ResultSet result, PreparedStatement stmt, Connection connection ){
+        try {
+            if(null != result){
+                result.close();
+            }
+            if(null != stmt){
+                stmt.close();
+            }
+            if(null != connection){
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void displayOrdersTable(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        ArrayList list = (ArrayList) req.getAttribute("list");
+
+        PrintWriter out = res.getWriter();
+        out.println("<html><body>");
+        out.println("<table width='650' border='0' >");
+        out.println("<tr>");
+        out.println("<th>order_id</th>");
+        out.println("<th>order_name</th>");
+        out.println("<th>amount</th>");
+        out.println("<th>price</th>");
+        out.println("<th>time</th>");
+        out.println("<th>oos</th>");
+        out.println("</tr>");
+        for(int i = 0; i < list.size(); i++){
+            Order order = (Order) list.get(i);
+            out.println("<tr>");
+            out.println("<td>" + order.getOrderid() + "</td>");
+            out.println("<td>" + order.getOrdername() + "</td>");
+            out.println("<td>" + order.getAmount() + "</td>");
+            out.println("<td>" + order.getPrice() + "</td>");
+            out.println("<td>" + order.getDate() + "</td>");
+            out.println("<td>" + order.getOos() + "</td>");
+            out.println("</tr>");
+        }
+        out.println("</table>");
+
     }
 
     public void displayLogoutPage(HttpServletRequest req, HttpServletResponse res) throws IOException {
@@ -140,7 +229,6 @@ public class ShowOrdersServlet extends HttpServlet{
         out.println("<input type='submit' name='Logout' value='Logout'>");
         out.println("</form>");
         out.println("</body></html>");
-
     }
 
 
