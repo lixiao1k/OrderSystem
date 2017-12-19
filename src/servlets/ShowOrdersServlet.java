@@ -90,6 +90,7 @@ public class ShowOrdersServlet extends HttpServlet{
                 req.setAttribute("login", loginValue);
                 getOrdersList(req, resp);
                 displayOrdersTable(req, resp);
+                displayOosOrdersTable(req, resp);
                 displayLogoutPage(req, resp);
             }else{
                 resp.sendRedirect(req.getContextPath() + "/ShowErrorServlet");
@@ -100,6 +101,9 @@ public class ShowOrdersServlet extends HttpServlet{
                 resp.sendRedirect(req.getContextPath() + "/LoginServlet");
             }else{
                 req.setAttribute("login", loginValue);
+                getOrdersList(req, resp);
+                displayOrdersTable(req, resp);
+                displayOosOrdersTable(req, resp);
                 displayLogoutPage(req, resp);
             }
         }
@@ -144,6 +148,7 @@ public class ShowOrdersServlet extends HttpServlet{
         PreparedStatement stmt = null;
         ResultSet result = null;
         ArrayList list = new ArrayList();
+        ArrayList oosList = new ArrayList();
 
         try {
             connection = datasource.getConnection();
@@ -165,6 +170,9 @@ public class ShowOrdersServlet extends HttpServlet{
                 order.setDate(result.getDate(6));
                 order.setOos(result.getString(7).charAt(0));
                 list.add(order);
+                if(result.getString(7).charAt(0) == 'Y'){
+                    oosList.add(order);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -173,6 +181,7 @@ public class ShowOrdersServlet extends HttpServlet{
 
         }
         req.setAttribute("list", list);
+        req.setAttribute("oosList", oosList);
     }
 
     private void closeSource(ResultSet result, PreparedStatement stmt, Connection connection ){
@@ -220,6 +229,36 @@ public class ShowOrdersServlet extends HttpServlet{
 
     }
 
+    public void displayOosOrdersTable(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        ArrayList oosList = (ArrayList) req.getAttribute("oosList");
+
+        if(oosList.size() != 0){
+            PrintWriter out = resp.getWriter();
+            out.println("<p style=\"color:red\">Alert! The following orders are out of stock!</p>");
+            out.println("<table width='650' border='0' >");
+            out.println("<tr>");
+            out.println("<th style=\"color:red\">order_id</th>");
+            out.println("<th style=\"color:red\">order_name</th>");
+            out.println("<th style=\"color:red\">amount</th>");
+            out.println("<th style=\"color:red\">price</th>");
+            out.println("<th style=\"color:red\">time</th>");
+            out.println("<th style=\"color:red\">oos</th>");
+            out.println("</tr>");
+            for(int i = 0; i < oosList.size(); i++){
+                Order order = (Order) oosList.get(i);
+                out.println("<tr>");
+                out.println("<td style=\"color:red\">" + order.getOrderid() + "</td>");
+                out.println("<td style=\"color:red\">" + order.getOrdername() + "</td>");
+                out.println("<td style=\"color:red\">" + order.getAmount() + "</td>");
+                out.println("<td style=\"color:red\">" + order.getPrice() + "</td>");
+                out.println("<td style=\"color:red\">" + order.getDate() + "</td>");
+                out.println("<td style=\"color:red\">" + order.getOos() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table>");
+        }
+    }
+
     public void displayLogoutPage(HttpServletRequest req, HttpServletResponse res) throws IOException {
         PrintWriter out = res.getWriter();
         // 注销Logout
@@ -230,7 +269,5 @@ public class ShowOrdersServlet extends HttpServlet{
         out.println("</form>");
         out.println("</body></html>");
     }
-
-
 
 }
