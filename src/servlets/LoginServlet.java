@@ -21,6 +21,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String login = "";
         HttpSession session = req.getSession(false);
+        System.out.println(session);
         Cookie cookie = null;
         Cookie[] cookies = req.getCookies();
 
@@ -61,6 +62,11 @@ public class LoginServlet extends HttpServlet {
         out.println("password: <input type='password' name='password' value=''>");
         out.println("<input type='submit' name='Submit' value='Submit'>");
         out.println("</p>You are visitor number " + webCounter);
+        out.println("</form>");
+        out.println("<form method='POST' action='"
+                + resp.encodeURL(req.getContextPath()+"/TravelLoginServlet")
+                + "'>");
+        out.println("<input type='submit' name='traveller' value='游客登陆'>");
         out.println("</form></body></html>");
 
     }
