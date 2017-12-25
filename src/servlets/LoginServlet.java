@@ -1,5 +1,8 @@
 package servlets;
 
+import listeners.SessionCounterListener;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -31,29 +34,33 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
+        ServletContext context = getServletContext();
+        int webCounter = Integer.parseInt((String) context.getAttribute("webCounter"));
+
+
 
 
         if (null != req.getParameter("Logout")){
-            if(null != session){
+            if(null != session) {
                 session.invalidate();
+                SessionCounterListener listener = new SessionCounterListener();
                 session = null;
             }
+        }else {
+            webCounter++;
+            context.setAttribute("webCounter", Integer.toString(webCounter));
         }
 
-        resp.setContentType("text/html;charset=utf-8");
         PrintWriter out = resp.getWriter();
         out.println("<html><body>");
 
-        out.println(
-                "<form method='POST' action='"
+        out.println("<form method='POST' action='"
                         + resp.encodeURL(req.getContextPath()+"/ShowOrdersServlet")
                         + "'>");
-        out.println(
-                "login: <input type='text' name='login' value='" + login + "'>");
-        out.println(
-                "password: <input type='password' name='password' value=''>");
+        out.println("login: <input type='text' name='login' value='" + login + "'>");
+        out.println("password: <input type='password' name='password' value=''>");
         out.println("<input type='submit' name='Submit' value='Submit'>");
-
+        out.println("</p>You are visitor number " + webCounter);
         out.println("</form></body></html>");
 
     }

@@ -1,6 +1,5 @@
 package servlets;
 
-import com.sun.tools.corba.se.idl.constExpr.Or;
 import model.Order;
 
 import javax.naming.InitialContext;
@@ -35,8 +34,6 @@ public class ShowOrdersServlet extends HttpServlet{
         try {
             jndiContext = new InitialContext(properties);
             datasource = (DataSource) jndiContext.lookup("java:comp/env/jdbc/ordersystem");
-            System.out.println("got context");
-            System.out.println("About to get ds---ShowMyStock");
         } catch (NamingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -51,8 +48,6 @@ public class ShowOrdersServlet extends HttpServlet{
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/html;charset=utf-8");
-        req.setCharacterEncoding("UTF-8");
 
         HttpSession session = req.getSession(false);
         boolean cookieFound = false;
@@ -84,7 +79,9 @@ public class ShowOrdersServlet extends HttpServlet{
                     resp.addCookie(cookie);
                 }
                 if(null == session){
+                    System.out.println("session is null");
                     session = req.getSession(true);
+                    session.setMaxInactiveInterval(5*60);
                     session.setAttribute("login", loginValue);
                 }
                 req.setAttribute("login", loginValue);
