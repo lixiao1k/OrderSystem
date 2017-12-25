@@ -19,9 +19,9 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
         String login = "";
         HttpSession session = req.getSession(false);
-        System.out.println(session);
         Cookie cookie = null;
         Cookie[] cookies = req.getCookies();
 
@@ -35,11 +35,6 @@ public class LoginServlet extends HttpServlet {
             }
         }
 
-        ServletContext context = getServletContext();
-        int webCounter = Integer.parseInt((String) context.getAttribute("webCounter"));
-
-
-
 
         if (null != req.getParameter("Logout")){
             if(null != session) {
@@ -47,10 +42,11 @@ public class LoginServlet extends HttpServlet {
                 SessionCounterListener listener = new SessionCounterListener();
                 session = null;
             }
-        }else {
-            webCounter++;
-            context.setAttribute("webCounter", Integer.toString(webCounter));
         }
+
+        ServletContext context = getServletContext();
+        int webCounter = Integer.parseInt((String) context.getAttribute("webCounter"));
+
 
         PrintWriter out = resp.getWriter();
         out.println("<html><body>");
@@ -61,7 +57,7 @@ public class LoginServlet extends HttpServlet {
         out.println("login: <input type='text' name='login' value='" + login + "'>");
         out.println("password: <input type='password' name='password' value=''>");
         out.println("<input type='submit' name='Submit' value='Submit'>");
-        out.println("</p>You are visitor number " + webCounter);
+        out.println("</p>The amount of users now is " + webCounter);
         out.println("</form>");
         out.println("<form method='POST' action='"
                 + resp.encodeURL(req.getContextPath()+"/TravelLoginServlet")

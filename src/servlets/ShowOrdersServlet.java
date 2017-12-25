@@ -4,6 +4,7 @@ import model.Order;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
@@ -79,7 +80,6 @@ public class ShowOrdersServlet extends HttpServlet{
                     resp.addCookie(cookie);
                 }
                 if(null == session){
-                    System.out.println("session is null");
                     session = req.getSession(true);
                     session.setMaxInactiveInterval(5*60);
                     session.setAttribute("login", loginValue);
@@ -89,6 +89,7 @@ public class ShowOrdersServlet extends HttpServlet{
                 displayOrdersTable(req, resp);
                 displayOosOrdersTable(req, resp);
                 displayLogoutPage(req, resp);
+                displayCountPage(req, resp);
             }else{
                 resp.sendRedirect(req.getContextPath() + "/ShowErrorServlet");
             }
@@ -102,6 +103,7 @@ public class ShowOrdersServlet extends HttpServlet{
                 displayOrdersTable(req, resp);
                 displayOosOrdersTable(req, resp);
                 displayLogoutPage(req, resp);
+                displayCountPage(req, resp);
             }
         }
     }
@@ -264,6 +266,15 @@ public class ShowOrdersServlet extends HttpServlet{
         out.println("</p>");
         out.println("<input type='submit' name='Logout' value='Logout'>");
         out.println("</form>");
+
+    }
+
+    public void displayCountPage(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        ServletContext context = getServletContext();
+        int webCounter = Integer.parseInt((String) context.getAttribute("webCounter"));
+
+        PrintWriter out = res.getWriter();
+        out.println("</p> The amount of users now is " + webCounter);
         out.println("</body></html>");
     }
 

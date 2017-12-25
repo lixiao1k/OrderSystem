@@ -11,6 +11,7 @@ public class SessionCounterListener implements HttpSessionListener{
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         System.out.println("Session Created");
+        System.out.println(se.getSession().getAttribute("Login"));
         ServletContext context = se.getSession().getServletContext();
         Integer counter = Integer.parseInt((String) context.getAttribute("webCounter"));
         counter++;
