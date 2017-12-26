@@ -3,10 +3,8 @@ package servlets;
 import listeners.SessionCounterListener;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.xml.ws.http.HTTPException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -19,6 +17,8 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        System.out.println(req.getRemoteAddr());
 
         String login = "";
         HttpSession session = req.getSession(false);
@@ -46,6 +46,7 @@ public class LoginServlet extends HttpServlet {
 
         ServletContext context = getServletContext();
         int webCounter = Integer.parseInt((String) context.getAttribute("webCounter"));
+        int travellers = Integer.parseInt((String) context.getAttribute("travellers"));
 
 
         PrintWriter out = resp.getWriter();
@@ -56,13 +57,15 @@ public class LoginServlet extends HttpServlet {
                         + "'>");
         out.println("login: <input type='text' name='login' value='" + login + "'>");
         out.println("password: <input type='password' name='password' value=''>");
-        out.println("<input type='submit' name='Submit' value='Submit'>");
-        out.println("</p>The amount of users now is " + webCounter);
+        out.println("<input type='submit' name='Submit' value='login'>");
+        out.println("</p>在线总人数: " + webCounter);
+        out.println("</p>已登陆人数: " + (webCounter - travellers));
+        out.println("</p>游客人数: " + travellers);
         out.println("</form>");
         out.println("<form method='POST' action='"
                 + resp.encodeURL(req.getContextPath()+"/TravelLoginServlet")
                 + "'>");
-        out.println("<input type='submit' name='traveller' value='游客登陆'>");
+        out.println("<input type='submit' name='travellers' value='traveller access'>");
         out.println("</form></body></html>");
 
     }

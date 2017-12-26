@@ -1,5 +1,7 @@
 package servlets;
 
+import listeners.ContextDataHelper;
+import listeners.SessionCounterListener;
 import model.Order;
 
 import javax.naming.InitialContext;
@@ -50,6 +52,7 @@ public class ShowOrdersServlet extends HttpServlet{
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+
         HttpSession session = req.getSession(false);
         boolean cookieFound = false;
         Cookie cookie = null;
@@ -81,8 +84,10 @@ public class ShowOrdersServlet extends HttpServlet{
                 }
                 if(null == session){
                     session = req.getSession(true);
-                    session.setMaxInactiveInterval(5*60);
+                    session.setMaxInactiveInterval(1*60);
                     session.setAttribute("login", loginValue);
+                    ContextDataHelper contextDataHelper = new ContextDataHelper();
+                    contextDataHelper.plusOne(getServletContext(), "webCounter");
                 }
                 req.setAttribute("login", loginValue);
                 getOrdersList(req, resp);
@@ -107,6 +112,7 @@ public class ShowOrdersServlet extends HttpServlet{
             }
         }
     }
+
 
     private boolean isUser(String userid, String password){
         boolean isUser = false;
@@ -270,11 +276,13 @@ public class ShowOrdersServlet extends HttpServlet{
     }
 
     public void displayCountPage(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        ServletContext context = getServletContext();
-        int webCounter = Integer.parseInt((String) context.getAttribute("webCounter"));
-
+        ContextDataHelper contextDataHelper = new ContextDataHelper();
+        int webCounter = contextDataHelper.getData(getServletContext(), "webCounter");
+        int travellers = contextDataHelper.getData(getServletContext(), "travellers");
         PrintWriter out = res.getWriter();
-        out.println("</p> The amount of users now is " + webCounter);
+        out.println("</p>在线总人数: " + webCounter);
+        out.println("</p>已登陆人数: " + (webCounter - travellers));
+        out.println("</p>游客人数: " + travellers);
         out.println("</body></html>");
     }
 
