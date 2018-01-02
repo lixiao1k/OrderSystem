@@ -22,7 +22,7 @@ public class CharacterEncodingRequest extends HttpServletRequestWrapper {
         String method = request.getMethod();
         if("Get".equalsIgnoreCase(method)){
             try {
-                value = new String(value.getBytes("iso-8859-1"), request.getCharacterEncoding());
+                value = new String(value.getBytes("ISO-8859-1"), request.getCharacterEncoding());
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -40,7 +40,7 @@ public class CharacterEncodingRequest extends HttpServletRequestWrapper {
             if("Get".equalsIgnoreCase(method)){
                 int i = 0;
                 for (String str : values){
-                    values[i++] = new String(str.getBytes("iso-8859-1"), request.getCharacterEncoding());
+                    values[i++] = new String(str.getBytes("ISO-8859-1"), request.getCharacterEncoding());
                 }
             }
         }catch (Exception e){

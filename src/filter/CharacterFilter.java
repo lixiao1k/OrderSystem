@@ -26,6 +26,7 @@ public class CharacterFilter implements Filter {
             HttpServletRequest httpReq = (HttpServletRequest) servletRequest;
             HttpServletResponse httpRes = (HttpServletResponse) servletResponse;
             httpReq.setCharacterEncoding(encoding);
+            System.out.println(httpReq.getParameter("login"));
             httpRes.setContentType("text/html;charset=" + encoding);
             filterChain.doFilter(new CharacterEncodingRequest(httpReq), servletResponse);
         }

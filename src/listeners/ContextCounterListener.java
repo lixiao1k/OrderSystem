@@ -6,20 +6,22 @@ import java.io.*;
 
 @WebListener
 public class ContextCounterListener implements ServletContextListener, ServletContextAttributeListener{
-    private int counter;
     private int travellers;
-    String counterFilePath = "/Users/shelton/My/Code/Web-apps/OrderSystem/web/WEB-INF/counter.txt";
+    private int users;
+
     String travellerFilePath = "/Users/shelton/My/Code/Web-apps/OrderSystem/web/WEB-INF/traveller.txt";
+    String userFilePath = "/Users/shelton/My/Code/Web-apps/OrderSystem/web/WEB-INF/user.txt";
+
     public ContextCounterListener(){
 
     }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        counter = getData(counterFilePath);
+        users = getData(userFilePath);
         travellers = getData(travellerFilePath);
         ServletContext servletContext = sce.getServletContext();
-        servletContext.setAttribute("webCounter", Integer.toString(counter));
+        servletContext.setAttribute("users", Integer.toString(users));
         servletContext.setAttribute("travellers", Integer.toString(travellers));
     }
 
@@ -51,13 +53,13 @@ public class ContextCounterListener implements ServletContextListener, ServletCo
         return data;
     }
 
-    synchronized void writeCounter(ServletContextAttributeEvent scae){
+    synchronized void writeCounter(ServletContextAttributeEvent scae){//不管是对那类用户属性的变更操作，两类用户登陆数据同时更新
         ServletContext servletContext = scae.getServletContext();
-        counter = Integer.parseInt((String) servletContext.getAttribute("webCounter"));
+        users = Integer.parseInt((String) servletContext.getAttribute("users"));
         travellers = Integer.parseInt((String) servletContext.getAttribute("travellers"));
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(counterFilePath));
-            writer.write(Integer.toString(counter));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(userFilePath));
+            writer.write(Integer.toString(users));
             writer.close();
             writer = new BufferedWriter(new FileWriter(travellerFilePath));
             writer.write(Integer.toString(travellers));
