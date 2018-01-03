@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@taglib prefix="count" uri="/WEB-INF/tlds/userCount.tld" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,6 +18,10 @@
 <H1>Online Stock.</H1>
 
 <H4><BR>You currently do not have any items checked out from the stock.</H4>
+<jsp:useBean id="userCount"
+             type="action.bussiness.UserCountBean"
+             scope="session"></jsp:useBean>
+<count:userCount/>
 
 <form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/LoginServlet")%>">
     </p>

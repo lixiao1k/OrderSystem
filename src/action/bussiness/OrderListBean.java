@@ -25,4 +25,5 @@ public class OrderListBean implements Serializable{
     public Order getOrderList(int index){
         return (Order) orderList.get(index);
     }
+
 }

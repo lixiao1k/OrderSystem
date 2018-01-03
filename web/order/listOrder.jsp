@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@taglib prefix="order" uri="/WEB-INF/tlds/orderInfo.tld" %>
+<%@taglib prefix="count" uri="/WEB-INF/tlds/userCount.tld" %>
 
 <html>
 <head>
@@ -46,6 +47,10 @@
         <order:orderInfo/>
         </TBODY>
     </TABLE>
+    <jsp:useBean id="userCount"
+                 type="action.bussiness.UserCountBean"
+                 scope="session"></jsp:useBean>
+    <count:userCount/>
 </H4>
 
 <form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/LoginServlet")%>">

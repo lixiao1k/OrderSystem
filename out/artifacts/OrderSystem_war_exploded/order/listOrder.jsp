@@ -7,6 +7,7 @@
 --%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%@taglib prefix="order" uri="/WEB-INF/tlds/orderInfo.tld" %>
+<%@taglib prefix="count" uri="/WEB-INF/tlds/userCount.tld" %>
 
 <html>
 <head>
@@ -14,12 +15,13 @@
     <title>Watch List</title>
 </head>
 <body>
-<table width="650" border="0">
-    <tr>
-        <td width="650" height="80"
-            background="<%=request.getContextPath() + "/image/top.jpg"%>">&nbsp;</td>
-    </tr>
-</table>
+<img src="<%=request.getContextPath() + "/image/top.jpg"%>" />
+<%--<table width="650" border="0">--%>
+    <%--<tr>--%>
+        <%--<td width="650" height="80"--%>
+            <%--background="<%=request.getContextPath() + "/image/top.jpg"%>">&nbsp;</td>--%>
+    <%--</tr>--%>
+<%--</table>--%>
 <H1>Online Order.</H1>
 <H2>
     <BR>
@@ -46,6 +48,10 @@
         <order:orderInfo/>
         </TBODY>
     </TABLE>
+    <jsp:useBean id="userCount"
+                 type="action.bussiness.UserCountBean"
+                 scope="session"></jsp:useBean>
+    <count:userCount/>
 </H4>
 
 <form method="GET" action="<%=response.encodeURL(request.getContextPath() + "/LoginServlet")%>">

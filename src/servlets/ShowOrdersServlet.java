@@ -103,11 +103,17 @@ public class ShowOrdersServlet extends HttpServlet{
         String userid = req.getParameter("login");
         listOrder.setOrderList(ServiceFactory.getOrderManageService().getMyOrder(userid));
 
+        UserCountBean userCount = new UserCountBean();
+        userCount.setUserCount(DaoFactory.getUserDao().getUserCount());
+        userCount.setTravellerCount(DaoFactory.getUserDao().getTravellerCount());
+
         try {
             if(listOrder.getOrderList().size() < 1){
+                session.setAttribute("userCount", userCount);
                 context.getRequestDispatcher("/order/noListOrder.jsp").forward(req, res);
             } else {
                 session.setAttribute("listOrder", listOrder);
+                session.setAttribute("userCount", userCount);
                 context.getRequestDispatcher("/order/listOrder.jsp").forward(req, res);
             }
         }catch (ServletException e){
