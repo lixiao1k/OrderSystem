@@ -18,6 +18,10 @@ public class TravelLoginServlet extends HttpServlet {
         processRequest(req, resp);
     }
 
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        processRequest(req, resp);
+    }
+
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ContextDataHelper contextDataHelper = new ContextDataHelper();
         HttpSession session = req.getSession(false);

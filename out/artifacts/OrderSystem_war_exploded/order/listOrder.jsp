@@ -19,23 +19,8 @@
         <td width="650" height="80"
             background="<%=request.getContextPath() + "/image/top.jpg"%>">&nbsp;</td>
     </tr>
-    <tr>
-        <td><a href="<%=request.getContextPath() + "/user/login.jsp"%>">Login</a>&nbsp;&nbsp;
-            <a href="<%=request.getContextPath() + "/user/register.html"%>">Register</a>&nbsp;&nbsp;
-            <a href="<%=request.getContextPath() + "/StockListServlet"%>">Watch
-                Stock List</a>&nbsp;&nbsp; <a
-                    href="<%=request.getContextPath() + "/logout.do"%>">Log off</a>&nbsp;&nbsp;
-            <a href="<%=request.getContextPath() + "/loadUser.do"%>">My
-                Profile</a>&nbsp;&nbsp; <a
-                    href="<%=request.getContextPath() + "/showWatchList.do"%>">Watch
-                My Stock List</a>&nbsp;&nbsp; <a
-                    href="<%=request.getContextPath() + "/index.do"%>">Order
-                Cancellation</a>&nbsp;&nbsp; <a
-                    href="<%=request.getContextPath() + "/stock/search.jsp"%>">Search</a>
-        </td>
-    </tr>
 </table>
-<H1>Online Stock.</H1>
+<H1>Online Order.</H1>
 <H2>
     <BR>
     <jsp:useBean id="listOrder"
@@ -43,19 +28,19 @@
                  scope="session"></jsp:useBean>
     <jsp:useBean id="item" class="model.Order"
                  scope="page"></jsp:useBean>
-    There are all Stocks.
+    There are all Orders.
 </H2>
 <H4>
     <BR>
     <TABLE width="100%" border="0" cellpadding="0" cellspacing="1">
         <TBODY>
         <TR>
-            <TH width="20%">ordid</TH>
-            <TH width="20%">userid</TH>
-            <TH width="20%">ordname</TH>
-            <TH width="20%">amount</TH>
-            <TH width="20%">price</TH>
-            <TH width="20%">time</TH>
+            <TH width="10%">ordid</TH>
+            <TH width="10%">userid</TH>
+            <TH width="10%">ordname</TH>
+            <TH width="10%">amount</TH>
+            <TH width="10%">price</TH>
+            <TH width="30%">time</TH>
             <TH width="20%">oos</TH>
         </TR>
         <order:orderInfo/>

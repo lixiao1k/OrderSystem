@@ -1,6 +1,7 @@
 package servlets;
 
 import action.bussiness.OrderListBean;
+import action.bussiness.UserCountBean;
 import factory.DaoFactory;
 import factory.ServiceFactory;
 import listeners.ContextDataHelper;
@@ -32,19 +33,6 @@ public class ShowOrdersServlet extends HttpServlet{
         super();
     }
 
-//    public void init(){
-//        InitialContext jndiContext = null;
-//        Properties properties = new Properties();
-//        properties.put(javax.naming.Context.PROVIDER_URL, "jnp:///");
-//        properties.put(javax.naming.Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
-//        try {
-//            jndiContext = new InitialContext(properties);
-//            datasource = (DataSource) jndiContext.lookup("java:comp/env/jdbc/ordersystem");
-//        } catch (NamingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         processRequest(req, resp);
     }
@@ -93,10 +81,6 @@ public class ShowOrdersServlet extends HttpServlet{
                 }
                 req.setAttribute("login", loginValue);
                 getOrdersList(req, resp);
-//                displayOrdersTable(req, resp);
-//                displayOosOrdersTable(req, resp);
-//                displayLogoutPage(req, resp);
-//                displayCountPage(req, resp);
             }else{
                 resp.sendRedirect(req.getContextPath() + "/ShowErrorServlet");
             }
@@ -107,10 +91,6 @@ public class ShowOrdersServlet extends HttpServlet{
             }else{
                 req.setAttribute("login", loginValue);
                 getOrdersList(req, resp);
-//                displayOrdersTable(req, resp);
-//                displayOosOrdersTable(req, resp);
-//                displayLogoutPage(req, resp);
-//                displayCountPage(req, resp);
             }
         }
     }
@@ -122,6 +102,7 @@ public class ShowOrdersServlet extends HttpServlet{
         OrderListBean listOrder = new OrderListBean();
         String userid = req.getParameter("login");
         listOrder.setOrderList(ServiceFactory.getOrderManageService().getMyOrder(userid));
+
         try {
             if(listOrder.getOrderList().size() < 1){
                 context.getRequestDispatcher("/order/noListOrder.jsp").forward(req, res);
