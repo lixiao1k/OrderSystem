@@ -1,7 +1,9 @@
 package dao.impl;
 
+import dao.BaseDao;
 import dao.DaoHelper;
 import dao.UserDao;
+import model.User;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeEvent;
@@ -11,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private static UserDaoImpl userDao = new UserDaoImpl();
     private static DaoHelper daoHelper = DaoHelperImpl.getBaseDaoInstance();
     private static int userCount;
@@ -32,47 +34,45 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isUser(String userid, String password) {
         boolean isUser = false;
-        String passwd = null;
-        Connection conn = daoHelper.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet result = null;
-
-        try {
-            stmt = conn.prepareStatement("SELECT * FROM user WHERE userid = ?");
-            stmt.setInt(1,Integer.parseInt(userid));
-            result = stmt.executeQuery();
-            while (result.next()){
-                passwd = result.getString("passwd");
-            }
-            if(passwd == null){
-                isUser = false;
-            }else if(passwd.equals(password)){
+//        String passwd = null;
+//        Connection conn = daoHelper.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet result = null;
+//
+//        try {
+//            stmt = conn.prepareStatement("SELECT * FROM user WHERE userid = ?");
+//            stmt.setInt(1,Integer.parseInt(userid));
+//            result = stmt.executeQuery();
+//            while (result.next()){
+//                passwd = result.getString("passwd");
+//            }
+//            if(passwd == null){
+//                isUser = false;
+//            }else if(passwd.equals(password)){
+//                isUser = true;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            daoHelper.closeConnection(conn);
+//            daoHelper.closePreparedStatement(stmt);
+//            daoHelper.closeResult(result);
+//        }
+//        return isUser;
+        User user = findUserById(userid);
+        if(user != null){
+            if(user.getPasswd().equals(password)){
                 isUser = true;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            daoHelper.closeConnection(conn);
-            daoHelper.closePreparedStatement(stmt);
-            daoHelper.closeResult(result);
         }
         return isUser;
     }
 
-    @Override
-    public void setUserCount(int count) {
-        userCount = count;
-    }
 
     @Override
     public int getUserCount() {
         userCount = getData(userFilePath);
         return userCount;
-    }
-
-    @Override
-    public void setTravellerCount(int count) {
-        travellercount = count;
     }
 
     @Override
@@ -84,6 +84,23 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void writeCount(ServletContextAttributeEvent scae) {
         write(scae);
+    }
+
+    @Override
+    public void save(User user) {
+        super.save(user);
+
+    }
+
+    @Override
+    public void delete(User user) {
+        super.save(user);
+    }
+
+    @Override
+    public User findUserById(String userid) {
+        User user = (User) super.load(User.class, Integer.parseInt(userid));
+        return user;
     }
 
 

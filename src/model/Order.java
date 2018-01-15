@@ -1,9 +1,19 @@
 package model;
 
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Order {
+@Entity
+@Table(name = "orders")
+public class Order implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     private int orderid;
     private int userid;
     private String ordername;
@@ -12,6 +22,13 @@ public class Order {
     private Date date;
     private char oos;
 
+    public Order(){
+
+    }
+
+
+    @Id
+    @Column(name = "ordid")
     public int getOrderid() {
         return orderid;
     }
@@ -20,6 +37,7 @@ public class Order {
         this.orderid = orderid;
     }
 
+    @Column(nullable = false)
     public int getUserid() {
         return userid;
     }
@@ -28,6 +46,7 @@ public class Order {
         this.userid = userid;
     }
 
+    @Column(name = "ordname")
     public String getOrdername() {
         return ordername;
     }
@@ -52,6 +71,7 @@ public class Order {
         this.price = price;
     }
 
+    @Column(name = "time")
     public Date getDate() {
         return date;
     }

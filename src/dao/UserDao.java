@@ -1,12 +1,15 @@
 package dao;
 
+import model.User;
+
 import javax.servlet.ServletContextAttributeEvent;
 
-public interface UserDao {
+public interface UserDao extends BaseDao{
     public boolean isUser(String userid, String password);
-    public void setUserCount(int count);
     public int getUserCount();
-    public void setTravellerCount(int count);
     public int getTravellerCount();
     public void writeCount(ServletContextAttributeEvent scae);
+    public void save(User user);
+    public void delete(User user);
+    public User findUserById(String userid);
 }
