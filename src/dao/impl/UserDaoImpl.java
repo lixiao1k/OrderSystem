@@ -15,7 +15,6 @@ import java.sql.SQLException;
 
 public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private static UserDaoImpl userDao = new UserDaoImpl();
-    private static DaoHelper daoHelper = DaoHelperImpl.getBaseDaoInstance();
     private static int userCount;
     private static int travellercount;
     private static String travellerFilePath = "/Users/shelton/My/Code/Web-apps/OrderSystem/web/WEB-INF/traveller.txt";

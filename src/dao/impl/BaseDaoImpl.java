@@ -25,7 +25,6 @@ public class BaseDaoImpl implements BaseDao {
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
     public Object load(Class c, int id) {
         try {
             Session session = HibernateUtil.getSession();
