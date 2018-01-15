@@ -15,13 +15,12 @@
     <title>Watch List</title>
 </head>
 <body>
-<img src="<%=request.getContextPath() + "/image/top.jpg"%>" />
-<%--<table width="650" border="0">--%>
-    <%--<tr>--%>
-        <%--<td width="650" height="80"--%>
-            <%--background="<%=request.getContextPath() + "/image/top.jpg"%>">&nbsp;</td>--%>
-    <%--</tr>--%>
-<%--</table>--%>
+<table width="650" border="0">
+    <tr>
+        <td width="650" height="80"
+            background="<%=request.getContextPath() + "/image/top.jpg"%>">&nbsp;</td>
+    </tr>
+</table>
 <H1>Online Order.</H1>
 <H2>
     <BR>
