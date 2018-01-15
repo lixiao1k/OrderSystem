@@ -14,8 +14,9 @@
 <!-- 自动把实体类与属性映射成数据库中的表与列 -->
 <property name="hbm2ddl.auto">update</property>
 <property name="current_session_context_class">thread</property>
-<!-- Hibernate 5不支持 mapping -->
-<!--mapping class="edu.nju.onlinestock.model.User"/-->   
-
+<!-- Hibernate 5支持 mapping -->
+<!--mapping class="edu.nju.onlinestock.model.User"/-->
+    <mapping class="model.User"/>
+    <mapping class="model.Order"/>
 </session-factory>
 </hibernate-configuration>

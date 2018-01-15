@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-public interface MyOrderDao {
+public interface MyOrderDao extends BaseDao {
 
-    public List findOrderid(String name);
+    public List getMyOrders(String name);
 }

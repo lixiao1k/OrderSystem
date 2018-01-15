@@ -11,5 +11,23 @@
       <user-name>root</user-name>
       <introspection-schemas>*:ordersystem</introspection-schemas>
     </data-source>
+    <data-source name="hibernate.cfg.xml/Hibernate" uuid="c7fe68da-d0ca-453d-9e9c-660f2699d064">
+      <database-info product="MySQL" version="5.7.18" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper" />
+      <user-name>root</user-name>
+      <introspection-schemas>*:ordersystem</introspection-schemas>
+    </data-source>
+    <data-source name="jdbc/ordersystem" uuid="a292527d-07d9-4a41-9c47-a81963432829">
+      <database-info product="MySQL" version="5.7.18" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper" />
+      <user-name>root</user-name>
+      <introspection-schemas>*:ordersystem</introspection-schemas>
+    </data-source>
   </component>
 </project>

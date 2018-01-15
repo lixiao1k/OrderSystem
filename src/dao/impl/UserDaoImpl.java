@@ -34,31 +34,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     @Override
     public boolean isUser(String userid, String password) {
         boolean isUser = false;
-//        String passwd = null;
-//        Connection conn = daoHelper.getConnection();
-//        PreparedStatement stmt = null;
-//        ResultSet result = null;
-//
-//        try {
-//            stmt = conn.prepareStatement("SELECT * FROM user WHERE userid = ?");
-//            stmt.setInt(1,Integer.parseInt(userid));
-//            result = stmt.executeQuery();
-//            while (result.next()){
-//                passwd = result.getString("passwd");
-//            }
-//            if(passwd == null){
-//                isUser = false;
-//            }else if(passwd.equals(password)){
-//                isUser = true;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            daoHelper.closeConnection(conn);
-//            daoHelper.closePreparedStatement(stmt);
-//            daoHelper.closeResult(result);
-//        }
-//        return isUser;
         User user = findUserById(userid);
         if(user != null){
             if(user.getPasswd().equals(password)){

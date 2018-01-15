@@ -24,17 +24,7 @@ public class OrderManageServiceImpl implements OrderManageService {
 
     @Override
     public List getMyOrder(String userid) {
-        ArrayList list1 = new ArrayList();
-        list1 = (ArrayList) DaoFactory.getMyOrderDao().findOrderid(userid);
-        ArrayList list2 = new ArrayList();
-
-        for(int i = 0; i < list1.size(); i++){
-            Order order = null;
-            int ordid = (int) list1.get(i);
-            order = DaoFactory.getOrderDao().find(ordid);
-            list2.add(order);
-        }
-        return list2;
+        return DaoFactory.getMyOrderDao().getMyOrders(userid);
     }
 
 

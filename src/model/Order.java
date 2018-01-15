@@ -21,7 +21,6 @@ public class Order implements Serializable{
     private double price;
     private Date date;
     private char oos;
-
     public Order(){
 
     }
